@@ -2,6 +2,7 @@ import { BrowserWindow, app, dialog } from 'electron';
 const WinState = require('electron-win-state').default
 import path from 'path'
 
+app.disableHardwareAcceleration() // 关闭硬件加速
 const winState = new WinState({
   defaultWidth: 1280,
   defaultHeight: 760,
@@ -9,8 +10,6 @@ const winState = new WinState({
 
 const createWindow = () => {
   const mainWin = new BrowserWindow({
-    maxWidth: 1920,
-    maxHeight: 1080,
     minWidth: 1280,
     minHeight: 760,
     show: false, // 先不显示
@@ -36,7 +35,7 @@ const createWindow = () => {
     mainWin.show() // 窗口加载完毕后再显示。对应上方的先不显示
   })
   // 打开开发工具
-  mainWin.webContents.openDevTools()
+  // mainWin.webContents.openDevTools()
   //关闭安全警告
   process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
   // dialog.showMessageBox(mainWin, {

@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import styles from '@/assets/style/App.module.scss'
+import { Outlet } from "react-router-dom";
+import { Layout, Menu } from 'antd';
+import type { MenuProps } from 'antd';
+import dataTool from "@/components/RouterTable";
+const { Content, Sider } = Layout;
 
-function App() {
-  const [count, setCount] = useState(0)
+import { useNavigate } from 'react-router-dom'
 
+const App = () => {
+  const navigate = useNavigate()
+  const changeContent: MenuProps['onClick'] = (e) => {
+    const key: any = e.key
+    navigate(dataTool[key].url)
+  }
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div id='app'>
+      <Layout hasSider>
+        <Sider className={styles.tools}  >
+          <div className={styles.logo} />
+          <Menu mode="inline" onClick={changeContent} defaultSelectedKeys={['0']} items={dataTool} />
+        </Sider>
+        <Layout className="site-layout">
+          {/* <Header style={{ padding: 0, background: '#fff' }} /> */}
+          <Content style={{ margin: '5px 16px 0', overflow: 'initial', height: "97.5vh" }}>
+            <Outlet></Outlet>
+          </Content>
+        </Layout>
+      </Layout>
+
     </div>
   )
 }
+
 
 export default App
